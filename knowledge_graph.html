@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "skyblue", "font": {"color": "white"}, "id": "mihai surdeanu", "label": "mihai surdeanu", "shape": "dot", "title": "mihai surdeanu"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "associate professor", "label": "associate professor", "shape": "dot", "title": "associate professor"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "department", "label": "department", "shape": "dot", "title": "department"}, {"color": "skyblue", "font": {"color": "white"}, "id": "unidentified", "label": "unidentified", "shape": "dot", "title": "unidentified"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "cognitive science - gidp, computer science, bio5 institute", "label": "cognitive science - gidp, computer science, bio5 institute", "shape": "dot", "title": "cognitive science - gidp, computer science, bio5 institute"}, {"color": "skyblue", "font": {"color": "white"}, "id": "university of arizona", "label": "university of arizona", "shape": "dot", "title": "university of arizona"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "ph.d", "label": "ph.d", "shape": "dot", "title": "ph.d"}, {"color": "skyblue", "font": {"color": "white"}, "id": "ph.d.", "label": "ph.d.", "shape": "dot", "title": "ph.d."}, {"color": "lightgreen", "font": {"color": "white"}, "id": "southern methodist university", "label": "southern methodist university", "shape": "dot", "title": "southern methodist university"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "computer science", "label": "computer science", "shape": "dot", "title": "computer science"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "2001", "label": "2001", "shape": "dot", "title": "2001"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "experience", "label": "experience", "shape": "dot", "title": "experience"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "building systems", "label": "building systems", "shape": "dot", "title": "building systems"}, {"color": "skyblue", "font": {"color": "white"}, "id": "systems", "label": "systems", "shape": "dot", "title": "systems"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "natural language processing", "label": "natural language processing", "shape": "dot", "title": "natural language processing"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "articles", "label": "articles", "shape": "dot", "title": "articles"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "leader", "label": "leader", "shape": "dot", "title": "leader"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "international evaluations", "label": "international evaluations", "shape": "dot", "title": "international evaluations"}, {"color": "skyblue", "font": {"color": "white"}, "id": "evaluations", "label": "evaluations", "shape": "dot", "title": "evaluations"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "nlp systems", "label": "nlp systems", "shape": "dot", "title": "nlp systems"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "question answering", "label": "question answering", "shape": "dot", "title": "question answering"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "information extraction", "label": "information extraction", "shape": "dot", "title": "information extraction"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "work", "label": "work", "shape": "dot", "title": "work"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "organizations", "label": "organizations", "shape": "dot", "title": "organizations"}, {"color": "skyblue", "font": {"color": "white"}, "id": "research", "label": "research", "shape": "dot", "title": "research"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "nlp", "label": "nlp", "shape": "dot", "title": "nlp"}, {"color": "lightgreen", "font": {"color": "white"}, "id": "machine learning", "label": "machine learning", "shape": "dot", "title": "machine learning"}]);
+                  edges = new vis.DataSet([{"from": "mihai surdeanu", "title": "is", "to": "associate professor"}, {"from": "mihai surdeanu", "title": "is", "to": "department"}, {"from": "unidentified", "title": "include", "to": "cognitive science - gidp, computer science, bio5 institute"}, {"from": "university of arizona", "title": "have", "to": "unidentified"}, {"from": "mihai surdeanu", "title": "earn", "to": "ph.d"}, {"from": "ph.d.", "title": "from", "to": "southern methodist university"}, {"from": "ph.d.", "title": "in", "to": "computer science"}, {"from": "ph.d.", "title": "in", "to": "2001"}, {"from": "mihai surdeanu", "title": "have", "to": "experience"}, {"from": "experience", "title": "in", "to": "building systems"}, {"from": "systems", "title": "driven by", "to": "natural language processing"}, {"from": "mihai surdeanu", "title": "publish", "to": "articles"}, {"from": "articles", "title": "peer-reviewed", "to": "unidentified"}, {"from": "mihai surdeanu", "title": "been", "to": "leader"}, {"from": "leader", "title": "at", "to": "international evaluations"}, {"from": "evaluations", "title": "of", "to": "nlp systems"}, {"from": "systems", "title": "such as", "to": "question answering"}, {"from": "systems", "title": "such as", "to": "information extraction"}, {"from": "unidentified", "title": "fund", "to": "work"}, {"from": "work", "title": "by", "to": "organizations"}, {"from": "research", "title": "focuses on", "to": "nlp"}, {"from": "research", "title": "focuses on", "to": "machine learning"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
