@@ -1,3 +1,11 @@
 # Environment variables
 .env
 .env.*
+
+# Virtual environment
+myenv/
+
+# Library cache
+__pycache__/
+*.pyc
+lib/

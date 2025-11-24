@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "yellow", "font": {"color": "white"}, "id": "jack", "label": "jack", "shape": "dot", "title": "jack"}, {"color": "blue", "font": {"color": "white"}, "id": "a small village", "label": "a small village", "shape": "dot", "title": "a small village"}, {"color": "blue", "font": {"color": "white"}, "id": "his bravery and kindness", "label": "his bravery and kindness", "shape": "dot", "title": "his bravery and kindness"}, {"color": "blue", "font": {"color": "white"}, "id": "a giant beanstalk", "label": "a giant beanstalk", "shape": "dot", "title": "a giant beanstalk"}, {"color": "blue", "font": {"color": "white"}, "id": "the giant beanstalk", "label": "the giant beanstalk", "shape": "dot", "title": "the giant beanstalk"}, {"color": "blue", "font": {"color": "white"}, "id": "his backyard", "label": "his backyard", "shape": "dot", "title": "his backyard"}, {"color": "yellow", "font": {"color": "white"}, "id": "a castle", "label": "a castle", "shape": "dot", "title": "a castle"}, {"color": "yellow", "font": {"color": "white"}, "id": "the castle", "label": "the castle", "shape": "dot", "title": "the castle"}, {"color": "blue", "font": {"color": "white"}, "id": "a giant", "label": "a giant", "shape": "dot", "title": "a giant"}, {"color": "yellow", "font": {"color": "white"}, "id": "the giant", "label": "the giant", "shape": "dot", "title": "the giant"}, {"color": "blue", "font": {"color": "white"}, "id": "a magical hen", "label": "a magical hen", "shape": "dot", "title": "a magical hen"}, {"color": "yellow", "font": {"color": "white"}, "id": "the magical hen", "label": "the magical hen", "shape": "dot", "title": "the magical hen"}, {"color": "blue", "font": {"color": "white"}, "id": "golden eggs", "label": "golden eggs", "shape": "dot", "title": "golden eggs"}, {"color": "yellow", "font": {"color": "white"}, "id": "the hen", "label": "the hen", "shape": "dot", "title": "the hen"}, {"color": "yellow", "font": {"color": "white"}, "id": "the beanstalk", "label": "the beanstalk", "shape": "dot", "title": "the beanstalk"}, {"color": "blue", "font": {"color": "white"}, "id": "his doom", "label": "his doom", "shape": "dot", "title": "his doom"}, {"color": "yellow", "font": {"color": "white"}, "id": "his village", "label": "his village", "shape": "dot", "title": "his village"}, {"color": "blue", "font": {"color": "white"}, "id": "happily ever after", "label": "happily ever after", "shape": "dot", "title": "happily ever after"}, {"color": "green", "font": {"color": "white"}, "id": "kingman, arizona", "label": "kingman, arizona", "shape": "dot", "title": "kingman, arizona"}, {"color": "green", "font": {"color": "white"}, "id": "a massive beanstalk", "label": "a massive beanstalk", "shape": "dot", "title": "a massive beanstalk"}, {"color": "green", "font": {"color": "white"}, "id": "a formidable giant", "label": "a formidable giant", "shape": "dot", "title": "a formidable giant"}, {"color": "green", "font": {"color": "white"}, "id": "a hen with the ability to produce golden eggs", "label": "a hen with the ability to produce golden eggs", "shape": "dot", "title": "a hen with the ability to produce golden eggs"}, {"color": "green", "font": {"color": "white"}, "id": "the giant\u0027s tragic fall and demise", "label": "the giant\u0027s tragic fall and demise", "shape": "dot", "title": "the giant\u0027s tragic fall and demise"}, {"color": "green", "font": {"color": "white"}, "id": "a prosperous and joyful life", "label": "a prosperous and joyful life", "shape": "dot", "title": "a prosperous and joyful life"}]);
+                  edges = new vis.DataSet([{"from": "jack", "title": "lives in", "to": "a small village"}, {"from": "jack", "title": "is known for", "to": "his bravery and kindness"}, {"from": "jack", "title": "decides to climb", "to": "a giant beanstalk"}, {"from": "the giant beanstalk", "title": "has grown in", "to": "his backyard"}, {"from": "jack", "title": "finds", "to": "a castle"}, {"from": "the castle", "title": "is inhabited by", "to": "a giant"}, {"from": "the giant", "title": "has", "to": "a magical hen"}, {"from": "the magical hen", "title": "lays", "to": "golden eggs"}, {"from": "jack", "title": "manages to steal", "to": "the hen"}, {"from": "the giant", "title": "chases", "to": "jack"}, {"from": "jack", "title": "cuts down", "to": "the beanstalk"}, {"from": "the giant", "title": "falls to", "to": "his doom"}, {"from": "jack", "title": "returns to", "to": "his village"}, {"from": "jack", "title": "lives", "to": "happily ever after"}, {"from": "jack", "title": "returns with", "to": "the magical hen"}, {"from": "jack", "title": "lives in", "to": "kingman, arizona"}, {"from": "jack", "title": "ascends", "to": "a massive beanstalk"}, {"from": "the castle", "title": "is home to", "to": "a formidable giant"}, {"from": "the giant", "title": "possesses", "to": "a hen with the ability to produce golden eggs"}, {"from": "the beanstalk", "title": "leads to", "to": "the giant\u0027s tragic fall and demise"}, {"from": "jack", "title": "enjoys", "to": "a prosperous and joyful life"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
