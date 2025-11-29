@@ -58,7 +58,7 @@ This tool is based on research presented in:
 **"Graphing the Truth: Structured Visualizations for Automated Hallucination Detection in LLMs"**  
 by Tanmay Agrawal
 
-[📄 Read the full paper](https://drive.google.com/file/d/1_0SDxAlyBPm71nxgm7CBCHDxVRk5vfLb/view?usp=sharing)
+[📄 Read the full paper](https://drive.google.com/file/d/1OIBSYVlYUdV2SrE5RIodxZGcZcnesRcI/view?usp=sharing)
 
 ## Installation
 
